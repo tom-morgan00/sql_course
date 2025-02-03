@@ -58,8 +58,52 @@ ORDER BY jp.salary_year_avg DESC
 LIMIT 10;
 ```
 
-Here's the breakdown of the top data analyst jobs in 2023:
+### Insights
 
 - **Wide Salary Range:** Top 10 paying data analyst roles span from $184k to $650k, indicating significant salary potential in the field.
 - **Diverse Employers:** Companies like SmartAsset, Meta, and AT&T are among those offering high salaries, showing a broad interest across different industries.
 - **Job Title Variety:** There's a high diversity in job titles, from Data Analyst to Director of Analytics, reflecting varied roles and specialisations within data analytics.
+
+### 2. Skills Required for the Top Paying Data Analyst Jobs
+
+To identify the skills that are needed within the highest-paying roles, I used the previous query to first get the top 10 highest paying roles. I then used LEFT JOINs to connect to the skills table and list out the skills that match the jobs. I formatted this using STRING_AGG to output the list of skills to make it easier to read.
+
+```sql
+WITH top_paying_jobs AS (
+    SELECT
+        jp.job_id,
+        jp.job_title,
+        ROUND(jp.salary_year_avg / 1000.0, 1) || 'k' AS salary_year_avg,
+        c.name AS company_name
+    FROM job_postings_fact jp
+    LEFT JOIN company_dim c
+    ON jp.company_id = c.company_id
+    WHERE jp.job_title_short = 'Data Analyst'
+    AND jp.job_location = 'Anywhere'
+    AND jp.salary_year_avg IS NOT NULL
+    ORDER BY jp.salary_year_avg DESC
+    LIMIT 10
+)
+
+SELECT
+    tj.job_title,
+    tj.salary_year_avg,
+    STRING_AGG(s.skills, ', ') AS skills
+FROM top_paying_jobs tj
+LEFT JOIN skills_job_dim sj
+ON sj.job_id = tj.job_id
+LEFT JOIN skills_dim s
+ON sj.skill_id = s.skill_id
+GROUP BY
+    tj.job_title,
+    tj,salary_year_avg,
+    tj.company_name
+ORDER BY tj.salary_year_avg DESC;
+```
+
+### Insights
+
+- **SQL is the most in-demand skill:**, appearing in 8 out of the top-paying job postings. This reinforces its importance in data analytics for querying and managing databases.
+- **Python follows closely:**, appearing in 7 job postings. This highlights the need for programming skills, especially for data manipulation, automation, and advanced analytics.
+- **Tableau (6 mentions) is the top visualization tool**, showing its significance for data storytelling and dashboard creation.
+- **R, Snowflake, Pandas, and Excel each appear multiple times**, indicating a demand for statistical analysis, data storage solutions, and spreadsheet-based analytics.
