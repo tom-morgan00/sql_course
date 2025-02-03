@@ -108,7 +108,7 @@ ORDER BY tj.salary_year_avg DESC;
 - **Tableau (6 mentions) is the top visualization tool**, showing its significance for data storytelling and dashboard creation.
 - **R, Snowflake, Pandas, and Excel each appear multiple times**, indicating a demand for statistical analysis, data storage solutions, and spreadsheet-based analytics.
 
-### 2. What skills are most in demand for remote data analyst jobs?
+### 3. What skills are most in demand for remote data analyst jobs?
 
 To identify the skills that are most in-demand for remote data analyst jobs, I used a slight variation of the first query to first get the remote data analyst jobs and the related skills. I then used INNER JOINs to connect to the skills table and list out the skills that match the jobs.
 
@@ -139,3 +139,29 @@ LIMIT 10;
 - **Excel remains a critical skill with 4,611 mentions**, showing its continued importance in data analysis, reporting, and business intelligence.
 - **Python is highly in demand with 4,330 mentions**, reflecting its growing use for automation, data manipulation, and advanced analytics.
 - **Tableau (3,745 mentions) and Power BI (2,609 mentions) are the top visualization tools**, emphasising the need for strong data storytelling and dashboarding skills.
+
+### 4. Which skills are associated with higher salaries?
+
+To identify the skills that are associated with higher salaries, I searched for all skills relating to job postings with a salary. I then grouped these job postings by skills and calculated the average salary relating to all jobs that had that skill.
+
+```sql
+SELECT
+    s.skills,
+    ROUND(AVG(jp.salary_year_avg), 0) AS salary_avg
+FROM skills_job_dim sj
+INNER JOIN job_postings_fact jp
+ON jp.job_id = sj.job_id
+INNER JOIN skills_dim s
+ON s.skill_id = sj.skill_id
+WHERE jp.job_title_short = 'Data Analyst'
+AND salary_year_avg IS NOT NULL
+GROUP BY s.skills
+ORDER BY salary_avg DESC
+LIMIT 10;
+```
+
+### Insights
+
+- **SVN (Subversion) leads with an average salary of $400K**, which is unusually high and may be influenced by niche or specialized roles.
+- **Solidity ($179K) is the highest-paying programming skill**, reflecting the strong demand for blockchain and smart contract development.
+- **Couchbase ($160.5K) and DataRobot ($155.5K)**, indicates that NoSQL databases and AI-powered automation tools are lucrative areas.
