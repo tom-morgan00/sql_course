@@ -107,3 +107,35 @@ ORDER BY tj.salary_year_avg DESC;
 - **Python follows closely:**, appearing in 7 job postings. This highlights the need for programming skills, especially for data manipulation, automation, and advanced analytics.
 - **Tableau (6 mentions) is the top visualization tool**, showing its significance for data storytelling and dashboard creation.
 - **R, Snowflake, Pandas, and Excel each appear multiple times**, indicating a demand for statistical analysis, data storage solutions, and spreadsheet-based analytics.
+
+### 2. What skills are most in demand for remote data analyst jobs?
+
+To identify the skills that are most in-demand for remote data analyst jobs, I used a slight variation of the first query to first get the remote data analyst jobs and the related skills. I then used INNER JOINs to connect to the skills table and list out the skills that match the jobs.
+
+```sql
+WITH remote_job_skills AS (
+    SELECT sj.*
+    FROM skills_job_dim sj
+    INNER JOIN job_postings_fact jp
+    ON sj.job_id = jp.job_id
+    WHERE jp.job_title_short = 'Data Analyst'
+    AND jp.job_work_from_home = TRUE
+)
+
+SELECT
+    s.skills AS skill,
+    COUNT(*) AS count
+FROM remote_job_skills rjs
+INNER JOIN skills_dim s
+ON rjs.skill_id = s.skill_id
+GROUP BY s.skills
+ORDER BY count DESC
+LIMIT 10;
+```
+
+### Insights
+
+- **SQL dominates the job market with 7,291 mentions**, confirming its essential role in querying and managing databases.
+- **Excel remains a critical skill with 4,611 mentions**, showing its continued importance in data analysis, reporting, and business intelligence.
+- **Python is highly in demand with 4,330 mentions**, reflecting its growing use for automation, data manipulation, and advanced analytics.
+- **Tableau (3,745 mentions) and Power BI (2,609 mentions) are the top visualization tools**, emphasising the need for strong data storytelling and dashboarding skills.
