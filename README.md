@@ -220,7 +220,7 @@ ORDER BY avg_salary DESC
 LIMIT 10;
 ```
 
-![Highest paying companies](assets/6_highest_salary_companies.png)
+![Highest paying companies](assets/6_high_salary_companies.png)
 
 ### Insights
 
@@ -268,6 +268,8 @@ WHERE jp.salary_year_avg IS NOT NULL
 GROUP BY jp.job_title_short
 ORDER BY salary_avg DESC;
 ```
+
+![Highest salary job titles](assets/8_high_salary_titles.png)
 
 ### Insights
 
