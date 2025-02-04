@@ -9,7 +9,7 @@ WITH top_paying_jobs AS (
     SELECT 
         jp.job_id,
         jp.job_title, 
-        ROUND(jp.salary_year_avg / 1000.0, 1) || 'k' AS salary_year_avg,
+        ROUND(jp.salary_year_avg, 0) AS salary_year_avg,
         c.name AS company_name
     FROM job_postings_fact jp
     LEFT JOIN company_dim c

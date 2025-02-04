@@ -101,6 +101,8 @@ GROUP BY
 ORDER BY tj.salary_year_avg DESC;
 ```
 
+![Top skills for the 10 highest paying roles](assets/2_top_paying_job_skills.png)
+
 ### Insights
 
 - **SQL is the most in-demand skill:**, appearing in 8 out of the top-paying job postings. This reinforces its importance in data analytics for querying and managing databases.
