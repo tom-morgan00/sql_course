@@ -130,6 +130,8 @@ ORDER BY count DESC
 LIMIT 10;
 ```
 
+![Skills most in demand for remote data analyst roles](assets/3_in_demand_skills.png)
+
 ### Insights
 
 - **SQL dominates the job market with 7,291 mentions**, confirming its essential role in querying and managing databases.
