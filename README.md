@@ -56,7 +56,7 @@ ORDER BY jp.salary_year_avg DESC
 LIMIT 10;
 ```
 
-![Top 10 highest paying roles](assets\1_top_paying_jobs.png)
+![Top 10 highest paying roles](assets/1_top_paying_jobs.png)
 
 ### Insights
 
