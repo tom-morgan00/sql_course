@@ -238,3 +238,25 @@ GROUP BY rj.count
 ### Insights
 
 Out of all the job postings, 8.8% of them are for remote jobs.
+
+### 8. Which job titles have the highest average salary?
+
+To find the answer to this, I will first need to group all jobs by their job title and will need to find the average salary for them.
+
+```sql
+SELECT
+    jp.job_title_short,
+    ROUND(AVG(salary_year_avg), 0) as salary_avg
+FROM job_postings_fact jp
+WHERE jp.salary_year_avg IS NOT NULL
+GROUP BY jp.job_title_short
+ORDER BY salary_avg DESC;
+```
+
+### Insights
+
+The top 3 highest paying roles by job title are:
+
+1. Senior Data Scientist - 154k average salary.
+1. Senior Data Engineer - 145k average salary.
+1. Data Scientist - 135k average salary.
