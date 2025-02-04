@@ -220,6 +220,8 @@ ORDER BY avg_salary DESC
 LIMIT 10;
 ```
 
+![Highest paying companies](assets/6_highest_salary_companies.png)
+
 ### Insights
 
 The top 3 high-paying companies were:
@@ -230,7 +232,7 @@ The top 3 high-paying companies were:
 
 ### 7. What percentage of jobs are remote (work from home)?
 
-To find this out, I will perform a query to get the number of remote jobs and will then divide this by the total number of job postings to get the percentage.
+To find this out, I will perform a query to get the number of remote jobs and compare it to the number of total jobs.
 
 ```sql
 WITH remote_jobs AS (
@@ -239,15 +241,19 @@ WITH remote_jobs AS (
     WHERE job_work_from_home = TRUE
 )
 
-SELECT rj.count::FLOAT/ COUNT(jp.job_id) * 100 as percentage
+SELECT
+  rj.count AS remote_jobs,
+  COUNT(jp.job_id) AS total_jobs
 FROM job_postings_fact jp
 CROSS JOIN remote_jobs rj
-GROUP BY rj.count
+GROUP BY rj.count;
 ```
+
+![Remote jobs vs non-remote jobs](assets/7_remote_jobs.png)
 
 ### Insights
 
-Out of all the job postings, 8.8% of them are for remote jobs.
+Out of all the job postings, 8.8% of them are for remote jobs. There are 787k job postings and around 69k of them are remote jobs.
 
 ### 8. Which job titles have the highest average salary?
 
