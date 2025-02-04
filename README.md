@@ -56,6 +56,8 @@ ORDER BY jp.salary_year_avg DESC
 LIMIT 10;
 ```
 
+![Top 10 highest paying roles](assets\1_top_paying_jobs.png)
+
 ### Insights
 
 - **Wide Salary Range:** Top 10 paying data analyst roles span from $184k to $650k, indicating significant salary potential in the field.

@@ -7,7 +7,7 @@
 
 SELECT 
     jp.job_title, 
-    ROUND(jp.salary_year_avg / 1000.0, 1) || 'k' AS salary_year_avg,
+    ROUND(jp.salary_year_avg, 0) AS salary_year_avg,
     jp.job_location, 
     c.name AS company_name,
     jp.job_schedule_type, 
