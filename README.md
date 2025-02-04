@@ -2,7 +2,7 @@
 
 This project explores the top-paying jobs within data analytics and I discover the most in-demand skills for those roles.
 
-This is my first data analytics project and I followed a guide on YouTube linked below. Questions 1-5 are straight from the course but I also added questions 6-10 to test myself.
+This is my first data analytics project and I followed a guide on YouTube linked below. Questions 1-5 are straight from the course but I also added questions 6-8 to test myself.
 [SQL for Data Analytics](https://www.youtube.com/watch?v=7mz73uXD9DA)
 
 ### Original questions
@@ -192,6 +192,8 @@ LIMIT 25;
 ```
 
 ### Insights
+
+![Top skills by in demand count and average salary](assets/5_optimal_skills.png)
 
 - **Go leads with an average salary of $115K and is in demand for 27 jobs**. This proves that having firm knowledge of a backend programming language is always good to have.
 - **Confluence is second with a salary of $114K and is in demand in 11 jobs**. This shows the high demand for understanding a project management tool that is good to know in these roles.
