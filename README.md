@@ -16,10 +16,8 @@ This is my first data analytics project and I followed a guide on YouTube linked
 ### Additional questions
 
 6. Which companies offer the highest average salary?
-7. What are the most in-demand skills based on job postings?
-8. What percentage of jobs are remote (work from home)?
-9. Which job titles have the highest average salary?
-10. What is the distribution of job postings across different countries?
+7. What percentage of jobs are remote (work from home)?
+8. Which job titles have the highest average salary?
 
 Here are all the SQL queries: [project_sql folder](/project_sql/)
 
@@ -190,3 +188,53 @@ LIMIT 25;
 - **Go leads with an average salary of $115K and is in demand for 27 jobs**. This proves that having firm knowledge of a backend programming language is always good to have.
 - **Confluence is second with a salary of $114K and is in demand in 11 jobs**. This shows the high demand for understanding a project management tool that is good to know in these roles.
 - **Hadoop is also amongst the top skills**, indicated with an average salary of 113K and being high in demand in 22 jobs.
+
+### 6. Which companies offer the highest average salary?
+
+To find this out, I looked up the job postings and grouped them by company id. I filtered the results to only show companies that have at least 3 jobs posted.
+
+```sql
+SELECT
+    jp.company_id,
+    c.name as company_name,
+    COUNT(jp.company_id) as count,
+    ROUND(AVG(jp.salary_year_avg), 0) as avg_salary
+FROM job_postings_fact jp
+INNER JOIN company_dim c
+ON c.company_id = jp.company_id
+WHERE jp.salary_year_avg IS NOT NULL
+AND jp.job_title_short = 'Data Analyst'
+GROUP BY jp.company_id, c.name
+HAVING COUNT(jp.company_id) > 2
+ORDER BY avg_salary DESC
+LIMIT 10;
+```
+
+### Insights
+
+The top 3 high-paying companies were:
+
+1. Walmart - 3 jobs with average salary of 203k.
+2. AT&T - 3 jobs with average salary of 187k.
+3. Intuit Inc - 7 jobs with average salary of 178k.
+
+### 7. What percentage of jobs are remote (work from home)?
+
+To find this out, I will perform a query to get the number of remote jobs and will then divide this by the total number of job postings to get the percentage.
+
+```sql
+WITH remote_jobs AS (
+    SELECT COUNT(job_id) as count
+    FROM job_postings_fact
+    WHERE job_work_from_home = TRUE
+)
+
+SELECT rj.count::FLOAT/ COUNT(jp.job_id) * 100 as percentage
+FROM job_postings_fact jp
+CROSS JOIN remote_jobs rj
+GROUP BY rj.count
+```
+
+### Insights
+
+Out of all the job postings, 8.8% of them are for remote jobs.
