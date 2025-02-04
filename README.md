@@ -113,21 +113,16 @@ ORDER BY tj.salary_year_avg DESC;
 To identify the skills that are most in-demand for remote data analyst jobs, I used a slight variation of the first query to first get the remote data analyst jobs and the related skills. I then used INNER JOINs to connect to the skills table and list out the skills that match the jobs.
 
 ```sql
-WITH remote_job_skills AS (
-    SELECT sj.*
-    FROM skills_job_dim sj
-    INNER JOIN job_postings_fact jp
-    ON sj.job_id = jp.job_id
-    WHERE jp.job_title_short = 'Data Analyst'
-    AND jp.job_work_from_home = TRUE
-)
-
 SELECT
-    s.skills AS skill,
-    COUNT(*) AS count
-FROM remote_job_skills rjs
+    s.skills,
+    COUNT(sj.job_id) as count
+FROM skills_job_dim sj
+INNER JOIN job_postings_fact jp
+ON sj.job_id = jp.job_id
 INNER JOIN skills_dim s
-ON rjs.skill_id = s.skill_id
+ON sj.skill_id = s.skill_id
+WHERE jp.job_title_short = 'Data Analyst'
+AND jp.job_work_from_home = TRUE
 GROUP BY s.skills
 ORDER BY count DESC
 LIMIT 10;
@@ -165,3 +160,33 @@ LIMIT 10;
 - **SVN (Subversion) leads with an average salary of $400K**, which is unusually high and may be influenced by niche or specialized roles.
 - **Solidity ($179K) is the highest-paying programming skill**, reflecting the strong demand for blockchain and smart contract development.
 - **Couchbase ($160.5K) and DataRobot ($155.5K)**, indicates that NoSQL databases and AI-powered automation tools are lucrative areas.
+
+### 5. Which skills are the most optimal to learn?
+
+To identify the skills that are the most optimal to learn, I will use my 2 previous queries for finding the most in demand skills as well as the top skills for higher paying salaries and combine the results.
+
+```sql
+SELECT
+    s.skills,
+    sj.skill_id,
+    COUNT(sj.job_id),
+    ROUND(AVG(jp.salary_year_avg), 0) AS salary_avg
+FROM skills_job_dim sj
+INNER JOIN job_postings_fact jp
+ON jp.job_id = sj.job_id
+INNER JOIN skills_dim s
+ON s.skill_id = sj.skill_id
+WHERE jp.job_title_short = 'Data Analyst'
+AND jp.salary_year_avg IS NOT NULL
+AND jp.job_work_from_home = TRUE
+GROUP BY sj.skill_id, s.skills
+HAVING COUNT(sj.job_id) > 10
+ORDER BY salary_avg DESC
+LIMIT 25;
+```
+
+### Insights
+
+- **Go leads with an average salary of $115K and is in demand for 27 jobs**. This proves that having firm knowledge of a backend programming language is always good to have.
+- **Confluence is second with a salary of $114K and is in demand in 11 jobs**. This shows the high demand for understanding a project management tool that is good to know in these roles.
+- **Hadoop is also amongst the top skills**, indicated with an average salary of 113K and being high in demand in 22 jobs.
