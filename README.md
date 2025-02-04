@@ -159,6 +159,8 @@ ORDER BY salary_avg DESC
 LIMIT 10;
 ```
 
+![Top high-paying salary skills](assets/4_top_skills_for_salary.png)
+
 ### Insights
 
 - **SVN (Subversion) leads with an average salary of $400K**, which is unusually high and may be influenced by niche or specialized roles.
